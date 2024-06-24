@@ -1,69 +1,135 @@
-namespace Tonestro.Maui.FirebaseSlim.iOS {
+using System;
+using Foundation;
+using ObjCRuntime;
 
-	// The first step to creating a binding is to add your native framework ("MyLibrary.xcframework")
-	// to the project.
-	// Open your binding csproj and add a section like this
-	// <ItemGroup>
-	//   <NativeReference Include="MyLibrary.xcframework">
-	//     <Kind>Framework</Kind>
-	//     <Frameworks></Frameworks>
-	//   </NativeReference>
-	// </ItemGroup>
-	//
-	// Once you've added it, you will need to customize it for your specific library:
-	//  - Change the Include to the correct path/name of your library
-	//  - Change Kind to Static (.a) or Framework (.framework/.xcframework) based upon the library kind and extension.
-	//    - Dynamic (.dylib) is a third option but rarely if ever valid, and only on macOS and Mac Catalyst
-	//  - If your library depends on other frameworks, add them inside <Frameworks></Frameworks>
-	// Example:
-	// <NativeReference Include="libs\MyTestFramework.xcframework">
-	//   <Kind>Framework</Kind>
-	//   <Frameworks>CoreLocation ModelIO</Frameworks>
-	// </NativeReference>
-	// 
-	// Once you've done that, you're ready to move on to binding the API...
-	//
-	// Here is where you'd define your API definition for the native Objective-C library.
-	//
-	// For example, to bind the following Objective-C class:
-	//
-	//     @interface Widget : NSObject {
-	//     }
-	//
-	// The C# binding would look like this:
-	//
-	//     [BaseType (typeof (NSObject))]
-	//     interface Widget {
-	//     }
-	//
-	// To bind Objective-C properties, such as:
-	//
-	//     @property (nonatomic, readwrite, assign) CGPoint center;
-	//
-	// You would add a property definition in the C# interface like so:
-	//
-	//     [Export ("center")]
-	//     CGPoint Center { get; set; }
-	//
-	// To bind an Objective-C method, such as:
-	//
-	//     -(void) doSomething:(NSObject *)object atIndex:(NSInteger)index;
-	//
-	// You would add a method definition to the C# interface like so:
-	//
-	//     [Export ("doSomething:atIndex:")]
-	//     void DoSomething (NSObject object, nint index);
-	//
-	// Objective-C "constructors" such as:
-	//
-	//     -(id)initWithElmo:(ElmoMuppet *)elmo;
-	//
-	// Can be bound as:
-	//
-	//     [Export ("initWithElmo:")]
-	//     NativeHandle Constructor (ElmoMuppet elmo);
-	//
-	// For more information, see https://aka.ms/ios-binding
-	//
+namespace Tonestro.Maui.FirebaseSlim.iOS;
 
+[Static]
+partial interface Constants
+{
+	// extern double MauiFirebaseVersionNumber;
+	[Field ("MauiFirebaseVersionNumber", "__Internal")]
+	double MauiFirebaseVersionNumber { get; }
+
+	// extern const unsigned char[] MauiFirebaseVersionString;
+	[Field ("MauiFirebaseVersionString", "__Internal")]
+	NSString MauiFirebaseVersionString { get; }
+}
+
+// @interface AnalyticsManagerSlim : NSObject
+[BaseType (typeof(NSObject))]
+interface AnalyticsManagerSlim
+{
+	// @property (readonly, nonatomic, strong, class) AnalyticsManagerSlim * _Nonnull shared;
+	[Static]
+	[Export ("shared", ArgumentSemantic.Strong)]
+	AnalyticsManagerSlim Shared { get; }
+
+	// -(void)logEvent:(NSString * _Nonnull)name parameters:(NSDictionary<NSString *,id> * _Nonnull)parameters;
+	[Export ("logEvent:parameters:")]
+	void LogEvent (string name, NSDictionary<NSString, NSObject> parameters);
+
+	// @property (readonly, copy, nonatomic) NSString * _Nonnull appInstanceId;
+	[Export ("appInstanceId")]
+	string AppInstanceId { get; }
+
+	// -(void)setUserId:(NSString * _Nullable)userId;
+	[Export ("setUserId:")]
+	void SetUserId ([NullAllowed] string userId);
+
+	// -(void)setUserProperty:(NSString * _Nullable)value forName:(NSString * _Nonnull)name;
+	[Export ("setUserProperty:forName:")]
+	void SetUserProperty ([NullAllowed] string value, string name);
+}
+
+// @interface DynamicLinkCreationParameters : NSObject
+[BaseType (typeof(NSObject))]
+interface DynamicLinkCreationParameters
+{
+	// @property (copy, nonatomic) NSString * _Nonnull dataLink;
+	[Export ("dataLink")]
+	string DataLink { get; set; }
+
+	// @property (copy, nonatomic) NSString * _Nonnull domain;
+	[Export ("domain")]
+	string Domain { get; set; }
+
+	// @property (copy, nonatomic) NSString * _Nullable appStoreId;
+	[NullAllowed, Export ("appStoreId")]
+	string AppStoreId { get; set; }
+
+	// @property (copy, nonatomic) NSString * _Nonnull appIdentifier;
+	[Export ("appIdentifier")]
+	string AppIdentifier { get; set; }
+
+	// @property (copy, nonatomic) NSString * _Nonnull title;
+	[Export ("title")]
+	string Title { get; set; }
+
+	// @property (copy, nonatomic) NSString * _Nonnull text;
+	[Export ("text")]
+	string Text { get; set; }
+
+	// @property (copy, nonatomic) NSString * _Nonnull imageUrl;
+	[Export ("imageUrl")]
+	string ImageUrl { get; set; }
+}
+
+// @interface DynamicLinkSlim : NSObject
+[BaseType (typeof(NSObject))]
+[DisableDefaultCtor]
+interface DynamicLinkSlim
+{
+	// @property (readonly, copy, nonatomic) NSURL * _Nullable url;
+	[NullAllowed, Export ("url", ArgumentSemantic.Copy)]
+	NSUrl Url { get; }
+
+	// @property (readonly, nonatomic) enum DynamicLinkMatchTypeEnum matchType;
+	[Export ("matchType")]
+	DynamicLinkMatchTypeEnum MatchType { get; }
+}
+
+// @interface DynamicLinksManagerSlim : NSObject
+[BaseType (typeof(NSObject))]
+interface DynamicLinksManagerSlim
+{
+	// @property (readonly, nonatomic, strong, class) DynamicLinksManagerSlim * _Nonnull shared;
+	[Static]
+	[Export ("shared", ArgumentSemantic.Strong)]
+	DynamicLinksManagerSlim Shared { get; }
+
+	// -(BOOL)shouldHandleDynamicLinkFromCustomSchemeURL:(NSURL * _Nonnull)url __attribute__((warn_unused_result("")));
+	[Export ("shouldHandleDynamicLinkFromCustomSchemeURL:")]
+	bool ShouldHandleDynamicLinkFromCustomSchemeURL (NSUrl url);
+
+	// -(DynamicLinkSlim * _Nullable)fromCustomSchemeUrlFromCustomSchemeURL:(NSURL * _Nonnull)url __attribute__((warn_unused_result("")));
+	[Export ("fromCustomSchemeUrlFromCustomSchemeURL:")]
+	[return: NullAllowed]
+	DynamicLinkSlim FromCustomSchemeUrl (NSUrl url);
+
+	// -(void)performDiagnosticsWithCompletion:(void (^ _Nonnull)(NSString * _Nullable, BOOL))completion;
+	[Export ("performDiagnosticsWithCompletion:")]
+	void PerformDiagnostics (Action<NSString, bool> completion);
+
+	// -(BOOL)handleUniversalLink:(NSUserActivity * _Nonnull)userActivity withCompletion:(void (^ _Nonnull)(DynamicLinkSlim * _Nullable, NSError * _Nullable))completion __attribute__((warn_unused_result("")));
+	[Export ("handleUniversalLink:withCompletion:")]
+	bool HandleUniversalLink (NSUserActivity userActivity, Action<DynamicLinkSlim, NSError> completion);
+
+	// -(void)createShortenedUrlWithCompletionWithDynamicLinkComponents:(DynamicLinkCreationParameters * _Nonnull)dynamicLinkComponents completion:(void (^ _Nonnull)(NSString * _Nullable, NSError * _Nullable))completion;
+	[Export ("createShortenedUrlWithCompletionWithDynamicLinkComponents:completion:")]
+	void CreateShortenedUrl (DynamicLinkCreationParameters dynamicLinkComponents, Action<NSString, NSError> completion);
+}
+
+// @interface FirebaseCoreSlim : NSObject
+[BaseType (typeof(NSObject))]
+interface FirebaseCoreSlim
+{
+	// @property (readonly, nonatomic, strong, class) FirebaseCoreSlim * _Nonnull shared;
+	[Static]
+	[Export ("shared", ArgumentSemantic.Strong)]
+	FirebaseCoreSlim Shared { get; }
+
+	// -(void)configure;
+	[Export ("configure")]
+	void Configure ();
 }
