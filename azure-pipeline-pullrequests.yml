@@ -36,7 +36,7 @@ steps:
   displayName: copy nugets to local-nugets
 
 - bash: |
-    cd Xamarin.FirebaseSlim.iOS.UsageChecker
+    cd Tonestro.Maui.FirebaseSlim.iOS.UsageChecker
     dotnet build
   displayName: Build UsageChecker
 
