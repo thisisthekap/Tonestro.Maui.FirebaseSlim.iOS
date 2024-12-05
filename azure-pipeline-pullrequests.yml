@@ -2,48 +2,47 @@ pr:
   - main
 
 pool:
-  vmImage: 'macOS-13'
+  vmImage: "macOS-15"
 
 steps:
+  - bash: |
+      sudo xcodes select
+    displayName: select solution xcode version
 
-- bash: |
-    sudo xcodes select
-  displayName: select solution xcode version
+  - task: UseDotNet@2
+    inputs:
+      packageType: "sdk"
+      useGlobalJson: true
 
-- task: UseDotNet@2
-  inputs:
-    packageType: 'sdk'
-    useGlobalJson: true
+  - bash: |
+      echo "##vso[build.updatebuildnumber]pullrequests-tonestro-maui-firebaseslim-ios-$(Build.SourceBranchName)-$(Build.BuildId)"
+    displayName: Set Build Number
 
-- bash: |
-    echo "##vso[build.updatebuildnumber]pullrequests-tonestro-maui-firebaseslim-ios-$(Build.SourceBranchName)-$(Build.BuildId)"
-  displayName: Set Build Number
+  - bash: |
+      sudo dotnet workload restore
+    displayName: Restore workloads
 
-- bash: |
-    sudo dotnet workload restore
-  displayName: Restore workloads
+  - bash: |
+      cd Tonestro.Maui.FirebaseSlim.iOS
+      dotnet build -c Release
+      dotnet pack -c Release
+    displayName: "Tonestro.Maui.FirebaseSlim.iOS: Build Release Nuget"
 
-- bash: |
-    cd Tonestro.Maui.FirebaseSlim.iOS
-    dotnet build -c Release
-    dotnet pack -c Release
-  displayName: "Tonestro.Maui.FirebaseSlim.iOS: Build Release Nuget"
+  - bash: |
+      cd local-nugets
+      cp ../Tonestro.Maui.FirebaseSlim.iOS/nugetoutput/Tonestro.Maui.FirebaseSlim.iOS.*.nupkg .
+      cd ..
+    displayName: copy nugets to local-nugets
 
-- bash: |
-    cd local-nugets
-    cp ../Tonestro.Maui.FirebaseSlim.iOS/nugetoutput/Tonestro.Maui.FirebaseSlim.iOS.*.nupkg .
-    cd ..
-  displayName: copy nugets to local-nugets
+  - bash: |
+      cd Tonestro.Maui.FirebaseSlim.iOS.UsageChecker
+      dotnet build
+    displayName: Build UsageChecker
 
-- bash: |
-    cd Tonestro.Maui.FirebaseSlim.iOS.UsageChecker
-    dotnet build
-  displayName: Build UsageChecker
-
-- task: PublishBuildArtifacts@1
-  displayName: publish nugetoutput
-  inputs:
-    PathtoPublish: 'Tonestro.Maui.FirebaseSlim.iOS/nugetoutput'
-    ArtifactName: 'nugetoutput'
-    publishLocation: 'Container'
-    StoreAsTar: true
+  - task: PublishBuildArtifacts@1
+    displayName: publish nugetoutput
+    inputs:
+      PathtoPublish: "Tonestro.Maui.FirebaseSlim.iOS/nugetoutput"
+      ArtifactName: "nugetoutput"
+      publishLocation: "Container"
+      StoreAsTar: true
