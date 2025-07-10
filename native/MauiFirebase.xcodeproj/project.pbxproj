@@ -11,12 +11,16 @@
 		D0BECB2A2BD833BA00CDDD0A /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = D0BECB292BD833BA00CDDD0A /* FirebaseAnalytics */; };
 		DB25B2262C29B2C1004636DC /* FirebaseProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB25B2252C29B2C1004636DC /* FirebaseProxy.swift */; };
 		DB25B2282C29B2FD004636DC /* FirebaseDynamicLinks in Frameworks */ = {isa = PBXBuildFile; productRef = DB25B2272C29B2FD004636DC /* FirebaseDynamicLinks */; };
+		DB309F482E1FFFA900B7ACFA /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DB309F472E1FFFA900B7ACFA /* AdSupport.framework */; };
+		DB309F4A2E1FFFB100B7ACFA /* AppTrackingTransparency.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DB309F492E1FFFB100B7ACFA /* AppTrackingTransparency.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		D051A4B82BD33D4600EC7F28 /* MauiFirebase.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MauiFirebase.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D051A4BB2BD33D4600EC7F28 /* MauiFirebase.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MauiFirebase.h; sourceTree = "<group>"; };
 		DB25B2252C29B2C1004636DC /* FirebaseProxy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseProxy.swift; sourceTree = "<group>"; };
+		DB309F472E1FFFA900B7ACFA /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.1.sdk/System/Library/Frameworks/AdSupport.framework; sourceTree = DEVELOPER_DIR; };
+		DB309F492E1FFFB100B7ACFA /* AppTrackingTransparency.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppTrackingTransparency.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.1.sdk/System/Library/Frameworks/AppTrackingTransparency.framework; sourceTree = DEVELOPER_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -25,7 +29,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				D0BECB2A2BD833BA00CDDD0A /* FirebaseAnalytics in Frameworks */,
+				DB309F4A2E1FFFB100B7ACFA /* AppTrackingTransparency.framework in Frameworks */,
 				DB25B2282C29B2FD004636DC /* FirebaseDynamicLinks in Frameworks */,
+				DB309F482E1FFFA900B7ACFA /* AdSupport.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -61,6 +67,8 @@
 		D051A4C82BD33DED00EC7F28 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				DB309F492E1FFFB100B7ACFA /* AppTrackingTransparency.framework */,
+				DB309F472E1FFFA900B7ACFA /* AdSupport.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
