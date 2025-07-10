@@ -7,6 +7,8 @@ public class AppDelegate : UIApplicationDelegate
 
     public override bool FinishedLaunching(UIApplication application, NSDictionary launchOptions)
     {
+        FirebaseCoreSlim.Shared.Configure();
+
         var analyticsManager = Tonestro.Maui.FirebaseSlim.iOS.AnalyticsManagerSlim.Shared;
 
         var firebaseAppInstanceId = analyticsManager.AppInstanceId;
