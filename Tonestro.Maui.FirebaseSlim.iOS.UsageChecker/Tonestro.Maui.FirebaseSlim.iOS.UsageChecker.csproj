@@ -7,6 +7,6 @@
     <SupportedOSPlatformVersion>13.0</SupportedOSPlatformVersion>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Tonestro.Maui.FirebaseSlim.iOS" Version="11.15.0.9" />
+    <PackageReference Include="Tonestro.Maui.FirebaseSlim.iOS" Version="11.15.0.11" />
   </ItemGroup>
 </Project>
