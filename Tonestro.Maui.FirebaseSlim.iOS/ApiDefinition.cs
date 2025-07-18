@@ -1,4 +1,3 @@
-using System;
 using Foundation;
 using ObjCRuntime;
 
@@ -40,84 +39,6 @@ interface AnalyticsManagerSlim
 	// -(void)setUserProperty:(NSString * _Nullable)value forName:(NSString * _Nonnull)name;
 	[Export ("setUserProperty:forName:")]
 	void SetUserProperty ([NullAllowed] string value, string name);
-}
-
-// @interface DynamicLinkCreationParameters : NSObject
-[BaseType (typeof(NSObject))]
-interface DynamicLinkCreationParameters
-{
-	// @property (copy, nonatomic) NSString * _Nonnull dataLink;
-	[Export ("dataLink")]
-	string DataLink { get; set; }
-
-	// @property (copy, nonatomic) NSString * _Nonnull domain;
-	[Export ("domain")]
-	string Domain { get; set; }
-
-	// @property (copy, nonatomic) NSString * _Nullable appStoreId;
-	[NullAllowed, Export ("appStoreId")]
-	string AppStoreId { get; set; }
-
-	// @property (copy, nonatomic) NSString * _Nonnull appIdentifier;
-	[Export ("appIdentifier")]
-	string AppIdentifier { get; set; }
-
-	// @property (copy, nonatomic) NSString * _Nonnull title;
-	[Export ("title")]
-	string Title { get; set; }
-
-	// @property (copy, nonatomic) NSString * _Nonnull text;
-	[Export ("text")]
-	string Text { get; set; }
-
-	// @property (copy, nonatomic) NSString * _Nonnull imageUrl;
-	[Export ("imageUrl")]
-	string ImageUrl { get; set; }
-}
-
-// @interface DynamicLinkSlim : NSObject
-[BaseType (typeof(NSObject))]
-[DisableDefaultCtor]
-interface DynamicLinkSlim
-{
-	// @property (readonly, copy, nonatomic) NSURL * _Nullable url;
-	[NullAllowed, Export ("url", ArgumentSemantic.Copy)]
-	NSUrl Url { get; }
-
-	// @property (readonly, nonatomic) enum DynamicLinkMatchTypeEnum matchType;
-	[Export ("matchType")]
-	DynamicLinkMatchTypeEnum MatchType { get; }
-}
-
-// @interface DynamicLinksManagerSlim : NSObject
-[BaseType (typeof(NSObject))]
-interface DynamicLinksManagerSlim
-{
-	// @property (readonly, nonatomic, strong, class) DynamicLinksManagerSlim * _Nonnull shared;
-	[Static]
-	[Export ("shared", ArgumentSemantic.Strong)]
-	DynamicLinksManagerSlim Shared { get; }
-
-	// -(BOOL)shouldHandleDynamicLinkFromCustomSchemeURL:(NSURL * _Nonnull)url __attribute__((warn_unused_result("")));
-	[Export ("shouldHandleDynamicLinkFromCustomSchemeURL:")]
-	bool ShouldHandleDynamicLinkFromCustomSchemeURL (NSUrl url);
-
-	// -(DynamicLinkSlim * _Nullable)fromCustomSchemeUrlFromCustomSchemeURL:(NSURL * _Nonnull)url __attribute__((warn_unused_result("")));
-	[Export ("fromCustomSchemeUrlFromCustomSchemeURL:")]
-	[return: NullAllowed]
-	DynamicLinkSlim FromCustomSchemeUrl (NSUrl url);
-
-	// -(void)performDiagnosticsWithCompletion:(void (^ _Nonnull)(NSString * _Nullable, BOOL))completion;
-	[Export ("performDiagnosticsWithCompletion:")]
-	void PerformDiagnostics (Action<NSString, bool> completion);
-
-	// -(BOOL)handleUniversalLink:(NSUserActivity * _Nonnull)userActivity withCompletion:(void (^ _Nonnull)(DynamicLinkSlim * _Nullable, NSError * _Nullable))completion __attribute__((warn_unused_result("")));
-	[Export ("handleUniversalLink:withCompletion:")]
-	bool HandleUniversalLink (NSUserActivity userActivity, Action<DynamicLinkSlim, NSError> completion);
-
-	// -(void)createShortenedUrlWithCompletionWithDynamicLinkComponents:(DynamicLinkCreationParameters * _Nonnull)dynamicLinkComponents completion:(void (^ _Nonnull)(NSString * _Nullable, NSError * _Nullable))completion;
-	[Export ("createShortenedUrlWithCompletionWithDynamicLinkComponents:completion:")]
-	void CreateShortenedUrl (DynamicLinkCreationParameters dynamicLinkComponents, Action<NSString, NSError> completion);
 }
 
 // @interface FirebaseCoreSlim : NSObject
