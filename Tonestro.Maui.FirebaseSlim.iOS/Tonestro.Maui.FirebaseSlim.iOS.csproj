@@ -9,7 +9,7 @@
     <PropertyGroup>
         <IsPackable>true</IsPackable>
         <PackageId>Tonestro.Maui.FirebaseSlim.iOS</PackageId>
-        <Version>11.15.0.11</Version>
+        <Version>11.15.0.12</Version>
         <Description>Contains bindings for https://github.com/firebase/firebase-ios-sdk</Description>
         <Authors>Christian Kapplmüller, Albilaga Linggra Pradana</Authors>
         <Company>fun.music IT GmbH</Company>
